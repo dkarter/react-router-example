@@ -1,22 +1,32 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
-import { startCase } from 'lodash';
 
 import './App.css';
 
-const PageComponent = ({ match }) => {
+const Links = () => {
   return (
-    <h1>
-      Param A: {match.params.a}<br />
-      Param B: {match.params.b}
-    </h1>
+    <nav>
+      <NavLink to="/?id=123">Inline</NavLink>
+      <NavLink to={{ pathname: '/', search: 'id=456' }}>Object</NavLink>
+    </nav>
+  );
+};
+const PageComponent = ({ match, location }) => {
+  return (
+    <div>
+      <p>root</p>
+      <p>{JSON.stringify(match)}</p>
+      <p>{JSON.stringify(location)}</p>
+      <p>{new URLSearchParams(location.search).get('id')}</p>
+    </div>
   );
 };
 
 const App = () => (
   <Router>
     <div>
-      <Route exact path="/:a(\d{2}-\d{2}-\d{4})/:b(\.[a-z]+)" component={PageComponent} />
+      <Links />
+      <Route path="/" component={PageComponent} />
     </div>
   </Router>
 );
