@@ -1,24 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Switch, // only render the first route that matches
+} from 'react-router-dom';
 
 import './App.css';
 
 const Links = () => {
   return (
     <nav>
-      <NavLink to="/?id=123">Inline</NavLink>
-      <NavLink to={{ pathname: '/', search: 'id=456' }}>Object</NavLink>
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/about">About</NavLink>
+      <NavLink to="/contact">Contact</NavLink>
     </nav>
-  );
-};
-const PageComponent = ({ match, location }) => {
-  return (
-    <div>
-      <p>root</p>
-      <p>{JSON.stringify(match)}</p>
-      <p>{JSON.stringify(location)}</p>
-      <p>{new URLSearchParams(location.search).get('id')}</p>
-    </div>
   );
 };
 
@@ -26,7 +22,11 @@ const App = () => (
   <Router>
     <div>
       <Links />
-      <Route path="/" component={PageComponent} />
+      <Switch>
+        <Route exact path="/" render={() => <h1>Home</h1>} />
+        <Route path="/about" render={() => <h1>About</h1>} />
+        <Route render={() => <h1>Page not found</h1>} />
+      </Switch>
     </div>
   </Router>
 );
