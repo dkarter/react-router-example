@@ -4,31 +4,23 @@ import { startCase } from 'lodash';
 
 import './App.css';
 
-const Links = () => {
-  return (
-    <nav>
-      <NavLink activeClassName="active" exact to="/">Home</NavLink>
-      <NavLink activeStyle={{ color: 'green' }} to="/about">About</NavLink>
-      <NavLink to="/contact">Contact</NavLink>
-    </nav>
-  );
-};
-
 const PageComponent = ({ match }) => {
   return (
     <h1>
-      PAGE: {startCase(match.params.page) || 'Home'}<br />
-      SUBPAGE: {startCase(match.params.subpage)}
+      Param A: {match.params.a}<br />
+      Param B: {match.params.b}
     </h1>
   );
 };
+
 const App = () => (
   <Router>
     <div>
-      <Links />
-      <Route exact path="/:page?/:subpage?" component={PageComponent} />
+      <Route exact path="/:a(\d{2}-\d{2}-\d{4})/:b(\.[a-z]+)" component={PageComponent} />
     </div>
   </Router>
 );
+
+// test with 03-14-2017
 
 export default App;
